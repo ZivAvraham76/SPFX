@@ -57,7 +57,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 <select
   value={this.state.selectedLevel}
   onChange={(e) => this.setState({ selectedLevel: e.target.value })}
-  className= "px-4 py-2 rounded-full bg-gray border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring focus:ring-gray-300"
+  className="px-4 py-2 pr-8 rounded-full bg-gray-200 text-gray-800 focus:outline-none cursor-pointer"
 >
   <option value="All">All Levels</option>
   <option value="Fundamentals">Fundamentals</option>
@@ -66,37 +66,10 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 </select>
 </div>
 
-<div className="relative overflow-x-hidden">
-  {/* כפתור גלילה שמאלה */}
-  <button
-    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
-    onClick={() => {
-      const carousel = document.getElementById('carousel');
-      if (carousel !== null) {
-        carousel.scrollLeft += 300;
-      }
-    }}   >
-    <svg
-                className="h-4 w-4 text-white dark:text-gray-800"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-            >
-                <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 1 1 5l4 4"
-                />
-                </svg>
-  </button>
-
-  {/* קרוסלה */}
+<div className="relative">
   <div
     id="carousel"
-    className="flex space-x-4 overflow-x-scroll scrollbar-hide"
+    className="flex space-x-2 overflow-x-scroll scrollbar-hide"
     style={{ scrollSnapType: 'x mandatory', width: '100%' }}
   >
     {/*card*/}
@@ -104,31 +77,63 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
       filteredData.map((item, index) => (
         <div
           key={index}
-          className="flex-none w-1/4 border border-gray-300 rounded-lg shadow-md p-4"
-          style={{ scrollSnapAlign: 'start' }}
+          className="flex-none w-1/4 bg-white overflow-visible p-1"
+          style={{
+            scrollSnapAlign: 'start',
+            minHeight: '300px',
+          }}
         >
           {/*image*/}
-          <div className="relative h-40 bg-gray-200">
+          <div className="relative h-2/5 bg-gray-200">
             <img
-              src={item.imageUrl || 'https://via.placeholder.com/150'}
+              src={require('../../carrousel/assets/background-photo.jpg')}
               className="h-full w-full object-cover"
+              alt="Course"
             />
-          {/*Level*/}
-          <div className="absolute top-2 left-2 bg-white text-sm text-gray-800 font-semibold px-2 py-1 rounded">
+            {/*Level*/}
+            <div className="absolute top-2 left-2 bg-white text-xs text-gray-800 font-semibold px-2 py-1 rounded">
               {item.levelName || 'Level'}
-          </div>
+            </div>
           </div>
 
-          {/*deatails*/}
-          <div className='p-4'>
-            <h3 className="text-lg font-bold text-gray-800 mt-1">
-              {item.litmosLearningPathName || 'No Title Available'}
+          {/*details*/}
+          <div className="p-2 h-3/5 flex flex-col justify-between">
+          
+          <div className="flex-grow min-h-[90px]">
+          {item.litmosLearningPathName && (
+           <h3 className="text-xs font-bold text-gray-800">
+            <a
+          href={item.litmosLearningPathUrl} 
+          target="_blank"
+          rel="noopener noreferrer" // מספק אבטחה נוספת בלינק
+          className="cursor-pointer"
+        
+        > {item.litmosLearningPathName}</a>
             </h3>
-            <p className="text-sm text-gray-600">{item.pillar}</p>
-            <p className="text-lg font-bold text-gray-800 mt-1">{item.productName}</p>
-            <p className="text-sm font-semibold text-gray-800 mt-2">
-              {item.PercentageComplete || 0}%
+            )}
+            {item.pillar && (
+              <p className="text-xs text-gray-600">{item.pillar}</p>
+            )
+            }
+
+            </div>
+
+            <div className="flex-grow min-h-[60px]">
+            <div className="mt-auto">
+            {item.productName && (
+            <p className="text-xs font-semibold text-gray-800">
+              {item.productName}
             </p>
+  )}
+    {item.PercentageComplete !== undefined && (
+            <p className="inline-flex items-center justify-center bg-gray-200 text-xs font-semibold text-gray-800 px-2 py-1 rounded-full px-1">
+            {item.PercentageComplete}%
+          </p>
+    )
+  }
+
+  </div>
+  </div>
           </div>
         </div>
       ))
@@ -139,30 +144,59 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 
   {/* כפתור גלילה ימינה */}
   <button
-    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
+    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
     onClick={() => {
       const carousel = document.getElementById('carousel');
       if (carousel !== null) {
         carousel.scrollLeft += 300;
       }
-    }} >
+    }}
+  >
     <svg
-                className="h-4 w-4 text-white dark:text-gray-800"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-            >
-                <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 9 4-4-4-4"
-                />
-            </svg>
+      className="h-4 w-4 text-gray-800"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 6 10"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M1 9l4-4-4-4"
+      />
+    </svg>
+  </button>
+
+  {/* כפתור גלילה שמאלה */}
+  <button
+    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
+    onClick={() => {
+      const carousel = document.getElementById('carousel');
+      if (carousel !== null) {
+        carousel.scrollLeft -= 300;
+      }
+    }}
+  >
+    <svg
+      className="h-4 w-4 text-gray-800"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 6 10"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M5 1l-4 4 4 4"
+      />
+    </svg>
   </button>
 </div>
+
 
 
     </section>
