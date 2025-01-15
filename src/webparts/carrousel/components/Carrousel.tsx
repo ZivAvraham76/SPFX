@@ -28,23 +28,24 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
       return matchesPillar && matchesLevel;
     });
   }
+  
 
   public render(): React.ReactElement<ICarrouselProps> {
     const filteredData = this.filterData(); 
 
     return (
-      <section className="p-6 w-screen h-screen p-4">
-      <div className="flex justify-between items-center mb-6">
+      <section>
+      <div className="flex items-center space-x-4 p-4">
 {/* כפתורי Pillars */}
-<div className="flex space-x-2 bg-pink-200 p-2 rounded-full">
+<div className="flex border border-gray-300 rounded-full overflow-hidden divide-x divide-gray-300">
   {['Quantum', 'Harmony', 'CloudGuard', 'Infinity'].map((pillar) => (
     <button
       key={pillar}
       onClick={() => this.setState({ selectedPillar: pillar })}
-      className={`px-4 py-2 rounded-full font-medium ${
+      className={`px-4 py-2 rounded-full font-medium transition ${
         this.state.selectedPillar === pillar
-          ? 'bg-blue-600 text-white'
-          : 'bg-white text-gray-800 border border-gray-300 hover:bg-gray-100'
+          ? 'bg-gray-500 text-white'
+          : 'bg-white text-gray-800 hover:bg-gray-100'
       }`}
     >
       {pillar}
@@ -56,7 +57,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 <select
   value={this.state.selectedLevel}
   onChange={(e) => this.setState({ selectedLevel: e.target.value })}
-  className="px-4 py-2 rounded-full bg-white border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring focus:ring-blue-300"
+  className= "px-4 py-2 rounded-full bg-gray border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring focus:ring-gray-300"
 >
   <option value="All">All Levels</option>
   <option value="Fundamentals">Fundamentals</option>
@@ -65,21 +66,104 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 </select>
 </div>
 
-<div>
-        {filteredData.length > 0 ? (
-          filteredData.map((item, index) => (
-            <div key={index} className="border border-gray-300">
-              <h3>{item.litmosLearningPathName || "No Title Available"}</h3>
-              <p>{item.levelName}</p>
-              <p>{item.productName}</p>
-              <p>{item.pillar}</p>
-              <p>{item.PercentageComplete || 0}%</p>
-            </div>
-          ))
-        ) : (
-          <p>No courses match your filters.</p>
-        )}
-      </div>
+<div className="relative overflow-x-hidden">
+  {/* כפתור גלילה שמאלה */}
+  <button
+    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
+    onClick={() => {
+      const carousel = document.getElementById('carousel');
+      if (carousel !== null) {
+        carousel.scrollLeft += 300;
+      }
+    }}   >
+    <svg
+                className="h-4 w-4 text-white dark:text-gray-800"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+            >
+                <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 1 1 5l4 4"
+                />
+                </svg>
+  </button>
+
+  {/* קרוסלה */}
+  <div
+    id="carousel"
+    className="flex space-x-4 overflow-x-scroll scrollbar-hide"
+    style={{ scrollSnapType: 'x mandatory', width: '100%' }}
+  >
+    {/*card*/}
+    {filteredData.length > 0 ? (
+      filteredData.map((item, index) => (
+        <div
+          key={index}
+          className="flex-none w-1/4 border border-gray-300 rounded-lg shadow-md p-4"
+          style={{ scrollSnapAlign: 'start' }}
+        >
+          {/*image*/}
+          <div className="relative h-40 bg-gray-200">
+            <img
+              src={item.imageUrl || 'https://via.placeholder.com/150'}
+              className="h-full w-full object-cover"
+            />
+          {/*Level*/}
+          <div className="absolute top-2 left-2 bg-white text-sm text-gray-800 font-semibold px-2 py-1 rounded">
+              {item.levelName || 'Level'}
+          </div>
+          </div>
+
+          {/*deatails*/}
+          <div className='p-4'>
+            <h3 className="text-lg font-bold text-gray-800 mt-1">
+              {item.litmosLearningPathName || 'No Title Available'}
+            </h3>
+            <p className="text-sm text-gray-600">{item.pillar}</p>
+            <p className="text-lg font-bold text-gray-800 mt-1">{item.productName}</p>
+            <p className="text-sm font-semibold text-gray-800 mt-2">
+              {item.PercentageComplete || 0}%
+            </p>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p>No courses match your filters.</p>
+    )}
+  </div>
+
+  {/* כפתור גלילה ימינה */}
+  <button
+    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
+    onClick={() => {
+      const carousel = document.getElementById('carousel');
+      if (carousel !== null) {
+        carousel.scrollLeft += 300;
+      }
+    }} >
+    <svg
+                className="h-4 w-4 text-white dark:text-gray-800"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+            >
+                <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 9 4-4-4-4"
+                />
+            </svg>
+  </button>
+</div>
+
 
     </section>
   );
