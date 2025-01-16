@@ -6,7 +6,7 @@ A React TypeScript web component built using SharePoint Framework (SPFx). This c
 - Pillar: Quantum, Harmony, CloudGuard, Infinity
 - Level: All Levels, Advanced, Fundamental, Expert
   
-Each card represents a JSON object from SharePoint, displaying its details. 
+Each card represents an object, displaying its details. 
 
 Technical Highlights:
 - Data passed as parameters to SPFx.
