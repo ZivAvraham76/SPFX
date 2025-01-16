@@ -67,9 +67,9 @@ Description of the extension that expands upon high-level summary above.
 
 This extension illustrates the following concepts:
 
-- topic 1
-- topic 2
-- topic 3
+- Dynamic Filtering: Enables filtering of tutorial videos by multiple parameters, such as pillar and skill level.
+- Data Integration: Seamlessly integrates JSON data from SharePoint and renders it dynamically in the carousel.
+- User Interaction: Provides an "Edit Properties" feature for users to view and edit the full JSON object tied to each video.
 
 > Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
 
