@@ -13,8 +13,7 @@ Technical Highlights:
 - Styled with TailwindCSS.
 - Fully integrated with SharePoint data.
 
-
-##picture of the solution:
+## picture of the solution:
 
 ![image](https://github.com/user-attachments/assets/c8325430-186f-4303-ab38-1990f5fc30a8)
 
