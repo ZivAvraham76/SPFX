@@ -63,8 +63,6 @@ Technical Highlights:
 
 ## Features
 
-Description of the extension that expands upon high-level summary above.
-
 This extension illustrates the following concepts:
 
 - Dynamic Filtering: Enables filtering of tutorial videos by multiple parameters, such as pillar and skill level.
