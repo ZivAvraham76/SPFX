@@ -5,5 +5,4 @@ export interface ICarrouselProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   data: Array<any>;
-  
 }

@@ -11,11 +11,10 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'CarrouselWebPartStrings';
 import Carrousel from './components/Carrousel';
 import { ICarrouselProps } from './components/ICarrouselProps';
-import jsonData from './assets/data.json'
-
 
 export interface ICarrouselWebPartProps {
   description: string;
+  jsonData: any[];
 }
 
 export default class CarrouselWebPart extends BaseClientSideWebPart<ICarrouselWebPartProps> {
@@ -28,7 +27,7 @@ export default class CarrouselWebPart extends BaseClientSideWebPart<ICarrouselWe
       Carrousel,
       {
         description: this.properties.description,
-        data: jsonData, 
+        data: this.properties.jsonData, 
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
@@ -113,6 +112,12 @@ export default class CarrouselWebPart extends BaseClientSideWebPart<ICarrouselWe
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyPaneTextField('jsonData', {
+                  label: 'JSON Data',
+                  multiline: true, 
+                  resizable: true, 
+                  placeholder: '{ "key": "value" }', 
                 })
               ]
             }

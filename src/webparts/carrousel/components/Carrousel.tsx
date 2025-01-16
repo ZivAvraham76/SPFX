@@ -1,20 +1,21 @@
 import * as React from 'react';
-// import styles from './Carrousel.module.scss';
 import type { ICarrouselProps } from './ICarrouselProps';
 import '../../../../assets/dist/tailwind.css';
 
 export interface ICarrouselState {
   selectedPillar: string;
   selectedLevel: string;
+  isDropdownOpen: boolean;
 }
 
 export default class Carrousel extends React.Component<ICarrouselProps, ICarrouselState> {
   constructor(props: ICarrouselProps) {
     super(props);
-
+    console.log('props:', this.props);
     this.state = {
       selectedPillar: 'All',
-      selectedLevel: 'All',
+      selectedLevel: 'All Levels',
+      isDropdownOpen: false,
     };
   }
 
@@ -24,7 +25,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 
     return data.filter((item) => {
       const matchesPillar = selectedPillar === 'All' || item.pillar === selectedPillar;
-      const matchesLevel = selectedLevel === 'All' || item.levelName === selectedLevel;
+      const matchesLevel = selectedLevel === 'All Levels' || item.levelName === selectedLevel;
       return matchesPillar && matchesLevel;
     });
   }
@@ -34,16 +35,17 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 
     return (
       <section>
-        <div className="flex items-center space-x-4 p-4">
+        {/* Top Section */}
+        <div className="flex items-center space-x-4 p-4 min-w-fit max-w-full flex-wrap">
           {/* Pillars */}
-          <div className="flex border border-gray-300 rounded-full overflow-hidden divide-x divide-gray-300">
+          <div className="flex border border-gray-300 rounded-full overflow-hidden divide-x divide-gray-300 flex-shrink-0">
             {['Quantum', 'Harmony', 'CloudGuard', 'Infinity'].map((pillar) => (
               <button
                 key={pillar}
                 onClick={() => this.setState({ selectedPillar: pillar })}
                 className={`px-4 py-2 font-medium transition ${
                   this.state.selectedPillar === pillar
-                    ? 'bg-gray-500 text-white'
+                    ? 'bg-gray-200 text-gray-800'
                     : 'bg-white text-gray-800 hover:bg-gray-100'
                 }`}
               >
@@ -53,25 +55,50 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
           </div>
 
           {/* Dropdown Levels */}
-          <select
-            value={this.state.selectedLevel}
-            onChange={(e) => this.setState({ selectedLevel: e.target.value })}
-            className="px-4 py-2 pr-8 rounded-full bg-gray-200 text-gray-800 focus:outline-none curs"
-          >
-            <option value="All">All Levels</option>
-            <option value="Fundamentals">Fundamentals</option>
-            <option value="Advanced">Advanced</option>
-            <option value="Expert">Expert</option>
-          </select>
+          <div className="relative inline-block text-left h-full">
+            <button
+              onClick={() => this.setState({ isDropdownOpen: !this.state.isDropdownOpen })}
+              className="px-4 py-2 pr-8 h-full rounded-full bg-gray-200 text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-gray-400 flex items-center justify-between"
+            >
+              {this.state.selectedLevel}
+              <svg
+                className="w-4 h-4 ml-2 text-gray-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {this.state.isDropdownOpen && (
+              <div className="absolute mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black/5 z-50">
+                <ul className="py-1">
+                  {['All Levels', 'Fundamentals', 'Advanced', 'Expert'].map((level) => (
+                    <li
+                      key={level}
+                      onClick={() =>
+                        this.setState({ selectedLevel: level, isDropdownOpen: false })
+                      }
+                      className="cursor-pointer px-4 py-2 text-lg text-gray-800 hover:bg-gray-300 hover:text-gray-900"
+                    >
+                      {level}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
 
+        {/* Carousel */}
         <div className="relative">
           <div
             id="carousel"
             className="flex space-x-2 overflow-x-scroll scrollbar-hide"
             style={{ scrollSnapType: 'x mandatory', width: '100%' }}
           >
-            {/* Card */}
             {filteredData.length > 0 ? (
               filteredData.map((item, index) => (
                 <div
@@ -82,8 +109,9 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
                     minHeight: '300px',
                   }}
                 >
-                  {/* Image */}
+                  {/* Top part of the card - image and level */}
                   <div className="relative h-2/5 bg-gray-200">
+                    {/* Image */}
                     <img
                       src={require('../../carrousel/assets/background-photo.jpg')}
                       className="h-full w-full object-cover"
@@ -95,7 +123,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
                     </div>
                   </div>
 
-                  {/* Details */}
+                  {/* Bottom part of the card - details */}
                   <div className="p-2 h-3/5 flex flex-col justify-between">
                     <div className="flex-grow min-h-[90px]">
                       {item.litmosLearningPathName && (
@@ -139,7 +167,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 
           {/* Swipe Right */}
           <button
-            className="absolute right-2 top-[60px] transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
+            className="absolute right-[-14px] top-[60px] transform -translate-y-1/2 bg-gray-700 p-2 rounded-full shadow-md"
             onClick={() => {
               const carousel = document.getElementById('carousel');
               if (carousel !== null) {
@@ -148,7 +176,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
             }}
           >
             <svg
-              className="h-4 w-4 text-gray-800"
+              className="h-4 w-4 text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -166,7 +194,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
 
           {/* Swipe Left */}
           <button
-            className="absolute left-2 top-[60px] transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-md"
+            className="absolute left-[-14px] top-[60px] transform -translate-y-1/2 bg-gray-700 p-2 rounded-full shadow-md"
             onClick={() => {
               const carousel = document.getElementById('carousel');
               if (carousel !== null) {
@@ -175,7 +203,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
             }}
           >
             <svg
-              className="h-4 w-4 text-gray-800"
+              className="h-4 w-4 text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
