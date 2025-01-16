@@ -5,12 +5,15 @@
 A React TypeScript web component built using SharePoint Framework (SPFx). This carousel displays tutorial videos with filtering options for:
 - Pillar: Quantum, Harmony, CloudGuard, Infinity
 - Level: All Levels, Advanced, Fundamental, Expert
+  
 Each card represents a JSON object from SharePoint, displaying its details. 
 
 Technical Highlights:
 - Data passed as parameters to SPFx.
 - Styled with TailwindCSS.
 - Fully integrated with SharePoint data.
+
+picture of the solution:
 
 ![image](https://github.com/user-attachments/assets/c8325430-186f-4303-ab38-1990f5fc30a8)
 
