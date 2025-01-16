@@ -36,7 +36,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
     return (
       <section>
         {/* Top Section */}
-        <div className="flex items-center space-x-4 p-4 min-w-fit max-w-full flex-wrap">
+        <div className="flex items-center space-x-4 p-4 min-w-fit max-w-full flex-wrap ml-2">
           {/* Pillars */}
           <div className="flex border border-gray-300 rounded-full overflow-hidden divide-x divide-gray-300 flex-shrink-0">
             {['Quantum', 'Harmony', 'CloudGuard', 'Infinity'].map((pillar) => (
@@ -62,14 +62,13 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
             >
               {this.state.selectedLevel}
               <svg
-                className="w-4 h-4 ml-2 text-gray-600"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
+      className="w-4 h-4 ml-2 text-gray-600"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path d="M7 10l5 5 5-5H7z" />
+    </svg>
             </button>
 
             {this.state.isDropdownOpen && (
@@ -143,7 +142,7 @@ export default class Carrousel extends React.Component<ICarrouselProps, ICarrous
                       )}
                     </div>
 
-                    <div className="flex-grow min-h-[60px]">
+                    <div className="flex-grow min-h-[40px]">
                       <div className="mt-auto">
                         {item.productName && (
                           <p className="text-xs font-semibold text-gray-800">

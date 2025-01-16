@@ -12,6 +12,7 @@ import * as strings from 'CarrouselWebPartStrings';
 import Carrousel from './components/Carrousel';
 import { ICarrouselProps } from './components/ICarrouselProps';
 
+
 export interface ICarrouselWebPartProps {
   description: string;
   jsonData: any[];
